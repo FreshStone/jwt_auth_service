@@ -1,0 +1,89 @@
+Different ways to run the code
+1. Build & run executable file (in project root dir)
+go build -o main .
+./main
+
+2. use existing executable file (in project root) and run it
+./main
+
+3. Run "go run main.go" in the project root directory
+
+
+
+APIs
+
+1. Sign up - localhost:8080/auth/sign-up POST
+
+Sample curl request
+curl --location 'localhost:8080/auth/sign-up' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "user_email":"user_email_id",
+    "user_password":"password"
+}'
+
+Sample response
+{
+    "message": "User created successfully"
+}
+
+
+
+2. Sign in - localhost:8080/auth/sign-in  POST
+
+sample curl request-
+curl --location 'localhost:8080/auth/sign-in' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "user_email":"user_email_id",
+    "user_password":"password"
+}'
+
+sample response
+{
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzA3NTI0OTksInVzZXJfZW1haWwiOiJhYmhpc2hlay5kaXhpdEBmaXRwYXNzLmNvLmluIn0.yfJbZLxsyHH_MeKVkEJj6x_epXNdIC8WSlSDSY5TclA",
+    "message": "User signed in successfully",
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzEzNTM2OTksInVzZXJfZW1haWwiOiJhYmhpc2hlay5kaXhpdEBmaXRwYXNzLmNvLmluIn0.KJfnKamjm8Y8lNbqSPkiIFEHHNRX-GX3qXxRzJPZZ7c"
+}
+
+3. Verify token - localhost:8080/auth/verify-token GET
+
+sample curl request
+curl --location 'localhost:8080/auth/verify-token' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzA3NTIzODcsInVzZXJfZW1haWwiOiJhYmhpc2hlay5kaXhpdEBmaXRwYXNzLmNvLmluIn0.HAL5-2cOdWr9dLHFwRKqKbucNVZnVOS5GuGtHN4NYvU'
+
+sample curl response
+{
+    "message": "Token is valid",
+    "user_email": "user_email"
+}
+
+
+4. Revoke token - localhost:8080/auth/revoke-token POST
+
+sample curl request
+curl --location --request POST 'localhost:8080/auth/revoke-token' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzA3NTIzODcsInVzZXJfZW1haWwiOiJhYmhpc2hlay5kaXhpdEBmaXRwYXNzLmNvLmluIn0.HAL5-2cOdWr9dLHFwRKqKbucNVZnVOS5GuGtHN4NYvU'
+
+sample response
+{
+    "message": "Token has been revoked"
+}
+
+
+5. Generate new tokens using refresh token - localhost:8080/auth/refresh-token POST
+
+sample curl request (pass refresh token in json body)
+
+curl --location 'localhost:8080/auth/refresh-token' \
+--header 'Content-Type: application/json' \
+--data '{
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzEzNTM1ODcsInVzZXJfZW1haWwiOiJhYmhpc2hlay5kaXhpdEBmaXRwYXNzLmNvLmluIn0.ZRhlGC12gJjPsCq-sX79Z_N1TiJckRmRXnfDuXV9o0g"
+}'
+
+
+sample response
+{
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzA3NTI0MDMsInVzZXJfZW1haWwiOiJhYmhpc2hlay5kaXhpdEBmaXRwYXNzLmNvLmluIn0.Dvo7teAnlHMidQjaJOoxK6_j6CVCH30r-FoZzK6JlsM",
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzEzNTM2MDMsInVzZXJfZW1haWwiOiJhYmhpc2hlay5kaXhpdEBmaXRwYXNzLmNvLmluIn0.MLb9_dq-PjS1vHO5SxbDXZOF36WSJklO1QkOplR30NM"
+}
